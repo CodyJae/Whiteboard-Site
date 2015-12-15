@@ -71,24 +71,28 @@
 			console.log("here");
 			var userData = {
 				username: '',
+				password: '',
 				token: ''
 			};
 			var resetUserData = function()
 			{
 				userData.username = '';
+				userData.password = '';
 				userData.token = '';
 			}
 			return {
-				login: function(userData) {
+				login: function(Data) {
 					var dfd = $q.defer();
-					$http.post('login.php', userData)
+					$http.post('login.php', Data)
 						.success(function(successMsg){
-							userData.username = userData.username;
+							userData.username = Data.username;
 							userData.token = successMsg.token;
 							dfd.resolve(true);
 					})
 					.error(function(errorMsg)
 					{
+						console.log("blahlakdfla");
+						console.log(Data.username);
 						resetUserData();
 						dfd.reject(errorMsg);
 					})
@@ -104,7 +108,7 @@
 				, password: ''
 			}
 			$scope.loginbutton = function() {
-				console.log("aldkfjaldf");
+				console.log("aldk $scope.loginForm.username");
 				loginFactory.login($scope.loginForm)
 					.then(function(successResult)
 					{
