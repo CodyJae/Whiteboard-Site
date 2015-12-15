@@ -33,12 +33,12 @@
 			<table>
 
 			<h3 ng-show="myVar">
-				<form name="log" ng-controller="logcontroller">
+				<form name="log" ng-controller="logcontroller" ng-submit="loginbutton()">
 				<tr>
 				<td>&nbsp;&nbsp;Username: </td><td><input type=text name="user" ng-model="loginForm.username"></td>
 				</tr>
 				<td>&nbsp;&nbsp;Password: </td><td> <input type=password name="pass"ng-model="loginForm.password"></td><br><br>
-				<tr><td><input type=submit class="btn btn-success" name="submit" value="Submit" ng-click="loginbutton()"></td></tr>
+				<tr><td><input type=submit class="btn btn-success" name="submit" value="Submit"></td></tr>
 				</form>
 			</table>
 			</h3>
@@ -81,7 +81,7 @@
 			return {
 				login: function(userData) {
 					var dfd = $q.defer();
-					$http.post('/login.php', data)
+					$http.post('login.php', userData)
 						.success(function(successMsg){
 							userData.username = userData.username;
 							userData.token = successMsg.token;
