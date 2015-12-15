@@ -30,7 +30,7 @@ function handleLogin()
 		$result['reason'] = "invalid password";
 		return $result;
 	}
-	mysql_connect("localhost","cody","scarface1") or die(mysql_error());
+	mysql_connect("localhost","user","password") or die(mysql_error());
 	mysql_select_db("whiteboard");
 	$vals = mysql_query("select * from users where user = '$name';");
 	if(mysql_num_rows($vals) != 1)
