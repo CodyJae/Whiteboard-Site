@@ -12,11 +12,13 @@ function handleLogin()
 		$result['reason'] = "invalid request";
 		return $result;
 	}
-	
+		
 	$result = array();
+	$dbcon = mysqli_connect("localhost","user","password") or die(mysql_error());
+	$d = mysqli_select_db($dbcon,"whiteboard");
 	
-	$username = mysqli_real_escape_string($request->username);
-	$password = mysqli_real_escape_string($request->password);
+	$username = mysqli_real_escape_string($d, $request->username);
+	$password = mysqli_real_escape_string($d, $request->password);
 	
 	if(!($username && is_string($username) && strlen($username) > 0))
 	{
@@ -30,18 +32,17 @@ function handleLogin()
 		$result['reason'] = "invalid password";
 		return $result;
 	}
-	mysql_connect("localhost","user","password") or die(mysql_error());
-	mysql_select_db("whiteboard");
-	$vals = mysql_query("select * from users where user = '$name';");
-	if(mysql_num_rows($vals) != 1)
+//SCOTT is this just another way of writting mysqli_real_escape_string????
+	$vals = mysqli_query("select * from users where user = '$username';");
+	if(mysqli_num_rows($vals) != 1)
 	{
 		http_response_code(401);
 		$result['reason'] = "The credentials do not match";
 		return $result;
 	}
-	if(mysql_num_rows($vals) == 1)
+	if(mysqli_num_rows($vals) == 1)
 	{
-		$row = mysql_fetch_array($vals);
+		$row = mysqli_fetch_array($vals);
 		$pass = $row['pass']; 
 		$user = $row['user'];
 		$id = $row['user_id'];
