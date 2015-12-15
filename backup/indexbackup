@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cody's Whiteboard</title>
+		<h2><center>Cody's Whiteboard</h2></center>
+	</head>
+	
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
+	</script>
+	<body ng-app="myApp">
+
+		<div ng-controller="personCtrl">
+
+			<b>Login</b>
+			<table>
+
+			<h3 ng-show="myVar">
+				<form name="log" method="POST" action="login.php">
+				<tr>
+				<td>Username: </td><td><input type=text name="user" ng-model="person.username"></td>
+				</tr>
+				<td>Password: </td><td> <input type=password name="pass"ng-model="person.password"></td><br><br>
+				<tr><td><input type=submit name="submit" value="Submit"></td></tr>
+				</form>
+			</table>
+			</h3>
+		</div>
+		<hr style="height:10px">
+
+		<div ng-controller="createctrl">
+
+			<button ng-click="toggle()"><b><u>Create New User</u></b></button>
+			<b ng-show="!myVar">
+			<table>
+				<form name="create" method="POST" action="create.php">
+				<tr><td>Username: </td><th><input type=text name="user" ng-model="person.username" ng-change="check()"></th></tr>
+				<tr><td>Password: </td><td><input type=password name="pass" ng-model="person.password" ng-change="check()"></th></tr><br>
+				<tr><td>ReType Password: </td><td><input type=password name="pass2" ng-model="person.password2" ng-change="check()"></td></tr><br><br>
+
+				<tr><td><span style="color:red" ng-show="error">Mismatch Found</span></tr></td>
+				<tr><td><input ng-show="c" type=submit name="Create" value="Create"></tr></td>
+				</form>
+			</table>
+			</b>
+		</div>
+		<hr style="height:10px">
+		
+	<script type="text/javascript">
+		var app = angular.module('myApp', []);
+		app.controller('createctrl', function($scope) {
+			$scope.person = {
+				username: "",
+				password: "",
+				password2: ""
+			};
+			$scope.error = false;
+			$scope.myVar = true;
+			$scope.c = false;
+			$scope.toggle = function() {
+				$scope.myVar = !$scope.myVar;
+			};
+			$scope.check = function() {
+				if($scope.person.password2 == $scope.person.password)
+				{
+					$scope.error = false;
+					if($scope.person.username != "" && $scope.person.password != ""){
+						$scope.c = true;
+					}
+					else{
+						$scope.c = false;
+					}
+				}
+				else
+				{
+					$scope.error = true;
+					$scope.c = false;
+				}
+			}
+		});
+		app.controller('personCtrl', function($scope) {
+  		$scope.person = {
+      		firstName: "",
+      		password: ""
+  		};
+  		$scope.myVar = true;
+  		$scope.toggle = function() {
+      		$scope.myVar = !$scope.myVar;
+ 		 	};
+		});
+	</script>
+
+	</body>
+</html>
